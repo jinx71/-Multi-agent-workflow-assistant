@@ -1,0 +1,28 @@
+# Runs the FastAPI backend. The frontend is a static Vite build that deploys
+# separately (e.g. Vercel/Netlify) — see frontend/README notes — so it is not
+# part of this compose file. For local frontend dev, run `npm run dev` in
+# ./frontend; Vite proxies /api to this backend.
+
+services:
+  backend:
+    build: ./backend
+    image: multi-agent-workflow-backend
+    ports:
+      - "8000:8000"
+    environment:
+      # Provide these via a .env file in ./backend (see backend/.env.example).
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      TAVILY_API_KEY: ${TAVILY_API_KEY:-}
+      GROQ_MODEL: ${GROQ_MODEL:-llama-3.3-70b-versatile}
+      MAX_REVISIONS: ${MAX_REVISIONS:-2}
+      # Allow the local Vite dev server by default.
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
+    env_file:
+      - ./backend/.env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
