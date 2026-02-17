@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-ink text-soft font-sans antialiased;
+    background-image:
+      radial-gradient(60rem 40rem at 80% -10%, rgba(76, 141, 255, 0.08), transparent 60%),
+      radial-gradient(50rem 40rem at -10% 10%, rgba(61, 214, 140, 0.05), transparent 55%);
+    background-attachment: fixed;
+  }
+
+  /* Thin, instrument-panel scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #25324d transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: #25324d;
+    border-radius: 8px;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-xl border border-hairline bg-panel/80 backdrop-blur-sm;
+  }
+
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.22em] text-muted;
+  }
+
+  /* The printed-report surface: warm paper inside the dark control room. */
+  .report-paper {
+    @apply bg-paper text-paper-ink font-report;
+  }
+
+  .report-paper.prose {
+    @apply max-w-none;
+  }
+  .report-paper.prose :where(h1, h2, h3, h4) {
+    @apply font-report font-medium text-paper-ink;
+  }
+  .report-paper.prose :where(h1) {
+    @apply text-3xl mb-3 mt-0 leading-tight;
+  }
+  .report-paper.prose :where(h2) {
+    @apply text-xl mt-7 mb-2;
+  }
+  .report-paper.prose :where(h3) {
+    @apply text-lg mt-5 mb-1.5;
+  }
+  .report-paper.prose :where(p, li) {
+    @apply text-[1.02rem] leading-relaxed text-[#2a2a25];
+  }
+  .report-paper.prose :where(a) {
+    @apply text-azure underline decoration-azure/40 underline-offset-2;
+  }
+  .report-paper.prose :where(strong) {
+    @apply text-paper-ink font-semibold;
+  }
+  .report-paper.prose :where(code) {
+    @apply font-mono text-[0.85em] bg-black/[0.06] rounded px-1 py-0.5 text-[#384] before:content-[''] after:content-[''];
+  }
+  .report-paper.prose :where(blockquote) {
+    @apply border-l-2 border-paper-ink/20 pl-4 italic text-[#4a4a42];
+  }
+  .report-paper.prose :where(hr) {
+    @apply border-paper-ink/10;
+  }
+}
